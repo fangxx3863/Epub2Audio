@@ -1,9 +1,11 @@
-# 代码引用自 https://github.com/egaebel/epub-to-text 由于原作者未设置许可证,故在此声明引用
-
 import os
 import sys
 import shutil
+from pathlib import Path
 from rich.console import Console
+from rich.prompt import IntPrompt
+from rich.prompt import Prompt
+from rich.prompt import Confirm
 from tts import *
 from epub2txt import *
 from multiprocessing import Pool
@@ -131,12 +133,25 @@ def 下载音频(text):
 
 if __name__ == "__main__":
     multiprocessing.freeze_support()
-    path = sys.argv[1]
-    文件名 = path.split("/")[-1][:-5]
-    epub_to_txt(os.path.basename(path),
-                file_dir=os.path.dirname(path),
-                output_file_dir=".",
-                chapter_files_dir=None,
+    try:
+        shutil.rmtree("chapters")
+        shutil.rmtree("output")
+    except:
+        pass
+    if len(sys.argv) == 2:
+        path = sys.argv[1]
+    else:
+        if Confirm.ask("您未输入任何参数,请选择一个操作 进入交互模式[Y] 查看命令帮助[N] "):
+            path = str(Prompt.ask("请输入Epub文件路径 "))
+        else:
+            console.print("\n1. 请于命令行中进入到本项目路径\n2. 执行 pip3 install -r requirements.txt\n3. 执行 python3 epub2audio.py EpubFilePath \n4. EpubFilePath替换为Epub文件路径")
+            os._exit(0)
+    文件名 = Path(path).name.replace("\'", "").replace("\"", "").replace("\\", "").split(".")[-2]
+    
+    epub_to_txt(str(Path(path).name).replace("\'", "").replace("\"", "").replace("\\", ""),
+                file_dir=str(Path(path).parent).replace("\'", "").replace("\"", "").replace("\\", ""),
+                output_file_dir=str(Path(__file__).parent),
+                chapter_files_dir=str(Path(__file__).parent),
                 debug=False,
                 dry_run=False)
     TXT文件 = glob.glob("chapters/*.txt")

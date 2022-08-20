@@ -1,3 +1,6 @@
+# 代码引用自 https://github.com/egaebel/epub-to-text 由于原作者未设置许可证,故在此声明引用
+
+
 import argparse
 import epub
 import html2text
@@ -23,11 +26,14 @@ def epub_to_txt(
     html_to_text = html2text.HTML2Text()
     html_to_text.ignore_links = True
 
+    
     # Ignore hidden files
     if epub_file_name[0] == '.':
+        print("Ignore hidden files")
         return
     # Ignore files that don't have the epub extension
     if os.path.splitext(epub_file_name)[1] != ".epub":
+        print("Ignore files that don't have the epub extension")
         return
 
     print("Opening file: %s" % epub_file_name)
