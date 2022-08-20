@@ -1,4 +1,5 @@
 pydub
+websockets
 asn1crypto
 backports.functools-lru-cache
 beautifulsoup4
