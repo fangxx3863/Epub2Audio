@@ -145,7 +145,7 @@ def epub_to_txt(
             continue
         chapter_content = html_to_text.handle(str(string_chapter_content))
         full_book_content.append((chapter_order, chapter_title, chapter_content))
-    with open(os.path.join(output_file_dir, os.path.splitext(epub_file_name)[0] + ".txt"), "w") as txt_file:
+    with open(os.path.join(output_file_dir, os.path.splitext(epub_file_name)[0] + ".txt"), "w", encoding='utf-8') as txt_file:
         for chapter_index, chapter_tuple in enumerate(full_book_content):
             order = chapter_tuple[0]
             if order.strip() == "":
@@ -160,7 +160,7 @@ def epub_to_txt(
             # chapter_file_name += "--" + order.zfill(5) + "--" + title
             chapter_file_name = order.zfill(0) + ".txt"
             if not dry_run:
-                with open(os.path.join(chapter_files_dir, chapter_file_name), "w") as chapter_txt_file:
+                with open(os.path.join(chapter_files_dir, chapter_file_name), "w", encoding='utf-8') as chapter_txt_file:
                     chapter_txt_file.write(content)
 
     ebook.close()

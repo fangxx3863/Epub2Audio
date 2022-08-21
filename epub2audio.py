@@ -11,10 +11,14 @@ from epub2txt import *
 from multiprocessing import Pool
 import multiprocessing
 import argparse
+import ssl
 import re
 import glob
 from pathlib import Path
 from pydub import AudioSegment
+
+# 关闭SSL证书验证
+ssl._create_default_https_context = ssl._create_unverified_context
 
 console = Console()
 
@@ -148,10 +152,10 @@ if __name__ == "__main__":
             os._exit(0)
     文件名 = Path(path).name.replace("\'", "").replace("\"", "").replace("\\ ", " ").split(".")[-2]
     
-    epub_to_txt(str(Path(path).name).replace("\'", "").replace("\"", "").replace("\\ ", ""),
+    epub_to_txt(str(Path(path).name).replace("\'", "").replace("\"", "").replace("\\ ", " "),
                 file_dir=str(Path(path).parent).replace("\'", "").replace("\"", "").replace("\\ ", " "),
-                output_file_dir=str(Path(__file__).parent),
-                chapter_files_dir=str(Path(__file__).parent),
+                output_file_dir=".",
+                chapter_files_dir=None,
                 debug=False,
                 dry_run=False)
     TXT文件 = glob.glob("chapters/*.txt")
