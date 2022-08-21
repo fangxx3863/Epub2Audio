@@ -146,10 +146,10 @@ if __name__ == "__main__":
         else:
             console.print("\n1. 请于命令行中进入到本项目路径\n2. 执行 pip3 install -r requirements.txt\n3. 执行 python3 epub2audio.py EpubFilePath \n4. EpubFilePath替换为Epub文件路径")
             os._exit(0)
-    文件名 = Path(path).name.replace("\'", "").replace("\"", "").replace("\\", "").split(".")[-2]
+    文件名 = Path(path).name.replace("\'", "").replace("\"", "").replace("\\ ", " ").split(".")[-2]
     
-    epub_to_txt(str(Path(path).name).replace("\'", "").replace("\"", "").replace("\\", ""),
-                file_dir=str(Path(path).parent).replace("\'", "").replace("\"", "").replace("\\", ""),
+    epub_to_txt(str(Path(path).name).replace("\'", "").replace("\"", "").replace("\\ ", ""),
+                file_dir=str(Path(path).parent).replace("\'", "").replace("\"", "").replace("\\ ", " "),
                 output_file_dir=str(Path(__file__).parent),
                 chapter_files_dir=str(Path(__file__).parent),
                 debug=False,
